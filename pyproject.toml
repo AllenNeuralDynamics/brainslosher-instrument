@@ -1,13 +1,17 @@
 [project]
-name = "mypackage"
+name = "brainslosher-instrument"
 version = "0.1.0"
 
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "argparse>=1.4.0",
     "pytest>=8.3.5",
     "ruff>=0.9.9",
 ]
+
+[project.scripts]
+brainslosher-instrument = "brainslosher-instrument.main:main"
 
 [project.optional-dependencies]
 docs = [

@@ -1,15 +1,45 @@
-# aind-python-library-template
-[![License](https://img.shields.io/badge/license-MIT-brightgreen)](LICENSE)
+# Brainslosher Launcher
 
+Wrapper repository for launching the Brainslosher instrument control software and web UI together as a single instance. The instrument control software and web UI are included as git submodules.
 
-This is a repository template to quickly setup a python library project. This repository utilizes a tool called **uv** to handle all dependency and package management. For more information on this tool go to the [uv wiki](https://docs.astral.sh/uv/). 
+## Repository Structure
+```
+brainslosher-launcher/
+├── src/
+│   ├── brainslosher-instrument/   # submodule
+│   └── brainslosher-web-ui/       # submodule
+├── ui/                            # populated automatically at launch
+├── main.py
+└── README.md
+```
 
-##  Getting Started
+## Setup
 
-- To use this template, click the green ``Use this template`` button and ``Create new repository``.
-- [Install uv](https://docs.astral.sh/uv/getting-started/installation/)
+Clone the repository with submodules:
+```bash
+git clone --recurse-submodules https://github.com/AllenNeuralDynamics/brainslosher-launcher
+```
 
-## Tools
+If you already cloned without `--recurse-submodules`:
+```bash
+git submodule update --init
+```
+
+## Launch
+
+Run `main.py` with paths to your instrument and UI config files. On first launch the latest UI release will be downloaded automatically.
+```bash
+uv run brainslosher-instrument --instrument-config path/to/instrument_config.json --ui-config path/to/ui_config.json
+```
+
+Optional arguments:
+```bash
+uv run brainslosher-instrument --instrument-config path/to/instrument_config.json \
+               --ui-config path/to/ui_config.json \
+               --log-level DEBUG
+```
+
+The web UI will be available at `http://localhost:<port>` where the port is defined in your UI config file (default `8000`).
 
 ### Package/Project Management 
 
@@ -36,7 +66,7 @@ uv run ruff check
 - Type Check
 
 ```bash
-uv run mypy src/mypackage
+uv run mypy src/brainslosher-instrument
 ```
 
 ## Documentation

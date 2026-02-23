@@ -1,0 +1,6 @@
+[submodule "src/brainwasher"]
+	path = src/brainwasher
+	url = git@github.com:AllenNeuralDynamics/brainwasher.git
+[submodule "src/brainslosher-web-ui"]
+	path = src/brainslosher-web-ui
+	url = git@github.com:AllenNeuralDynamics/brainslosher-web-ui.git
