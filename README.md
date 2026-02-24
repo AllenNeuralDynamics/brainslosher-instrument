@@ -34,7 +34,7 @@ uv run brainslosher-instrument --instrument-config path/to/instrument_config.jso
 
 Optional arguments:
 ```bash
-uv run brainslosher-instrument --instrument-config path/to/instrument_config.json \
+uv run brainslosher_instrument --instrument-config path/to/instrument_config.json \
                --ui-config path/to/ui_config.json \
                --log-level DEBUG
 ```

@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "brainslosher-instrument"
 version = "0.1.0"
@@ -11,7 +15,7 @@ dependencies = [
 ]
 
 [project.scripts]
-brainslosher-instrument = "brainslosher-instrument.main:main"
+brainslosher_instrument = "brainslosher_instrument.main:main"
 
 [project.optional-dependencies]
 docs = [

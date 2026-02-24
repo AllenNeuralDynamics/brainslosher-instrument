@@ -10,6 +10,7 @@ import logging
 UI_REPO = "AllenNeuralDynamics/brainslosher-web-ui"
 FILE_NAME = "ui.zip"
 UI_DIR = Path("ui")
+DIST_PATH = Path(__file__).resolve().parents[2] / "ui" / "dist"
 VERSION_FILE = Path("ui/.version")
 
 def get_ui_submodule_tag() -> str:
@@ -71,15 +72,17 @@ def main():
         "--group", "brainslosher_group",
         "brainslosher",
         "--config", args.instrument_config,
-        "--log_level", args.log_level.lower()
-    ], cwd="src/brainslosher-instrument")
+        "--log-level", args.log_level
+    ], cwd="src/brainwasher")
 
     frontend = subprocess.Popen([
         "uv", "run", "src/main.py",
         "--config", args.ui_config,
-        "--log_level", args.log_level,
-        "--static_files", str(UI_DIR)
-    ], cwd="src/brainslosher-web-ui")
+        "--log-level", args.log_level,
+        "--static-files", str(DIST_PATH)
+    ], cwd="src/brainslosher-web-ui/backend")
+
+
 
     try:
         instrument.wait()
