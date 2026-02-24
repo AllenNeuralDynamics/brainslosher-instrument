@@ -12,32 +12,42 @@ FILE_NAME = "ui.zip"
 UI_DIR = Path("ui")
 VERSION_FILE = Path("ui/.version")
 
-def get_latest_release_asset_url():
-    url = f"https://api.github.com/repos/{UI_REPO}/releases/latest"
+def get_ui_submodule_tag() -> str:
+    result = subprocess.run(
+        ["git", "describe", "--tags"],
+        cwd="src/brainslosher-web-ui",
+        capture_output=True,
+        text=True
+    )
+    return result.stdout.strip()
+
+def get_release_asset_url(tag: str):
+    url = f"https://api.github.com/repos/{UI_REPO}/releases/tags/{tag}"
     req = urllib.request.Request(url, headers={"Accept": "application/vnd.github+json"})
     with urllib.request.urlopen(req) as response:
         release = json.loads(response.read())
     
     for asset in release["assets"]:
         if asset["name"] == FILE_NAME:
-            return asset["browser_download_url"], release["tag_name"]
+            return asset["browser_download_url"]
 
 def fetch_ui():
-    latest_url, latest_tag = get_latest_release_asset_url()
+    tag = get_ui_submodule_tag()
     
-    if VERSION_FILE.exists() and VERSION_FILE.read_text() == latest_tag:
-        print(f"UI is up to date ({latest_tag})")
+    if VERSION_FILE.exists() and VERSION_FILE.read_text() == tag:
+        logging.debug(f"UI is up to date ({tag})")
         return
     
-    print(f"Downloading UI {latest_tag}...")
-    urllib.request.urlretrieve(latest_url, FILE_NAME)
+    logging.debug(f"Downloading UI {tag}...")
+    url = get_release_asset_url(tag)
+    urllib.request.urlretrieve(url, FILE_NAME)
     
     with zipfile.ZipFile(FILE_NAME) as z:
         z.extractall(UI_DIR)
     
-    VERSION_FILE.write_text(latest_tag)
+    VERSION_FILE.write_text(tag)
     Path(FILE_NAME).unlink()
-    print("UI ready")
+    logging.debug("UI ready")
     
 
 def main():
